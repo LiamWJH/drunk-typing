@@ -11,6 +11,7 @@ seed_N = data["auto-complete-start"]
 profanityinclude = data["profanity-include"]
 schizopercent = data["schizophrenia%"]
 drunkmode = data["drunkmode"]
+drunkstage = data["drunkstage"]
 
 keywords = ["fuck", "shit"]
 
@@ -35,7 +36,9 @@ print("good luck mortal")
 
 def on_key(event):
     global sentence_cache
-
+    global drunkstage
+    drunkstage += 2 ** -4
+    print(drunkstage)
     if event.event_type != "down":
         return
 
@@ -47,7 +50,6 @@ def on_key(event):
     if key == "backspace":
         kb.press_and_release("backspace")
         return
-
 
     if key != "space" and (len(key) > 1):
         return
@@ -71,7 +73,7 @@ def on_key(event):
         return
 
     out = " " if key == "space" else key
-    if drunkmode and len(out) == 1 and out.isalpha() and random.randint(1,6) == 1:
+    if drunkmode and len(out) == 1 and out.isalpha() and random.uniform(0.01,100.00) <= drunkstage:
         out = get_neighbor_key(out)
 
     kb.write(out)
