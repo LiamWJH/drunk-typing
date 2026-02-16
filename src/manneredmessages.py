@@ -80,9 +80,14 @@ def on_key(event):
 
     sentence_candidate = []
     for sentence_item in messages:
-        sentence_seed = " ".join(sentence_item.split(" ")[:seed_N])
-        if sentence_seed.startswith(sentence_cache):
-            sentence_candidate.append(sentence_item)
+        if len(sentence_cache.strip().split()) < seed_N:
+            return
+
+        sentence_candidate = [
+            s for s in messages
+            if s.lower().startswith(sentence_cache.lower())
+        ]
+
 
     if not sentence_candidate:
         return
